@@ -1,5 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Alegreya+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
 body {
   background: url('bg.png'), #D9CEB2;
+  font-family: 'Alegreya Sans', sans-serif;
+  font-size: 12pt;
 }
 
 #gallery-outer {
