@@ -2,8 +2,8 @@
 
 import sys, json, io
 from flask import Flask, url_for, send_file
-from sources.filesystem import FilesystemSource
-from sources import Collection, Document
+from showoff.sources.filesystem import FilesystemSource
+from showoff.sources import Collection, Document
 
 root_dir = sys.argv[1]
 source = FilesystemSource(root_dir)

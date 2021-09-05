@@ -1,4 +1,4 @@
-from . import Source, Document, Collection
+from showoff.sources import Source, Document, Collection
 import os
 
 class FilesystemSource(Source):

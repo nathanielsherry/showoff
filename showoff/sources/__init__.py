@@ -1,4 +1,4 @@
-from .thumbnailer import Thumbnailer
+from showoff.sources.thumbnailer import Thumbnailer
 import io, json
 
 class Source:
