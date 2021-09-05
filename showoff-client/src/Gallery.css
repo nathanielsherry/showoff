@@ -130,4 +130,6 @@ body {
   justify-content: space-evenly;
   flex-grow: 0;
   flex-shrink: 1;
+  margin: 10px;
+  overflow-y: scroll;
 }
