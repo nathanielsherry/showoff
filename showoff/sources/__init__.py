@@ -94,7 +94,7 @@ class Document(Node):
     def thumb(self):
         from PIL import Image
         img = Image.open(io.BytesIO(self.bytes))
-        img = img.resize((128, 128))
+        img.thumbnail((128, 128), Image.ANTIALIAS)
         outbuf = io.BytesIO()
         img.save(outbuf, format='jpeg')
         return outbuf.getvalue()
