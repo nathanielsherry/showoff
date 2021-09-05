@@ -1,4 +1,4 @@
-import tempfile, os, io
+import tempfile, os, io, traceback
 
 class Thumbnailer:
     def __init__(self, source, size=128):
@@ -35,13 +35,13 @@ class Thumbnailer:
         try:
             from PIL import Image
             with io.BytesIO(node.bytes) as inbuf, io.BytesIO() as outbuf:
-                with Image.open(inbuf) as img:
+                   with Image.open(inbuf) as img:
                     img.thumbnail((self.size, self.size), Image.ANTIALIAS)
                     img = img.convert('RGB')
                     img.save(outbuf, format='jpeg')
                     bytes = outbuf.getvalue()
         except:
-            pass
+            log.error(traceback.format_exc())
         finally:
             try:
                 os.makedirs(self.path_for(node.parent))

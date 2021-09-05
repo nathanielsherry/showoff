@@ -1,5 +1,6 @@
 from showoff.sources import Source, Document, Collection
-import os
+from showoff import log
+import os, traceback
 
 class FilesystemSource(Source):
     def __init__(self, root_directory, settings=None):
@@ -38,4 +39,5 @@ class FilesystemSource(Source):
             with open(self._dir(path), 'rb') as fh:
                 return fh.read()
         except:
+            log.error(traceback.format_exc())
             return b''
