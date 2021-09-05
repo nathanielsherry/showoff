@@ -10,15 +10,19 @@ body {
   height: 100%;
   width: 100%;
   display: flex;
+  flex-direction: column;
 }
 
 .gallery-image {
+  flex-grow: 1;
+  flex-shrink: 1;
+
   box-shadow: 0px 1px 20px -1px #00000080;
   display: inline-block;
   margin: 20px;
   padding: 0px;
+  height: 100%;
     
-  height: auto;
   object-fit: contain;
   
   min-width: 0px;
@@ -53,7 +57,7 @@ body {
   justify-content: center;
   background-color: #C6B791;
   border: 0px solid #774F38;
-  box-shadow: inset 0px 0px 5px 0px #00000050;
+  box-shadow: inset 0px 0.5px 5px 0px #00000050;
   border-radius: 100px;
   margin: 10px 10px 0px 10px;
   padding: 5px;
@@ -93,9 +97,6 @@ body {
 }
 
 #gallery {
-  height: 100%;
-  flex-grow: 1;
-  flex-shrink: 1;
   min-height: 0px;
 }
 
@@ -103,4 +104,6 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
+  flex-grow: 0;
+  flex-shrink: 1;
 }
