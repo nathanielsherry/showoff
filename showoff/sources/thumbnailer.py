@@ -34,6 +34,7 @@ class Thumbnailer:
         from PIL import Image
         img = Image.open(io.BytesIO(node.bytes))
         img.thumbnail((self.size, self.size), Image.ANTIALIAS)
+        img = img.convert('RGB')
         outbuf = io.BytesIO()
         img.save(outbuf, format='jpeg')
         bytes = outbuf.getvalue()
