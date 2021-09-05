@@ -31,16 +31,22 @@ class Thumbnailer:
             return fh.read()
     
     def generate(self, node):
-        from PIL import Image
-        img = Image.open(io.BytesIO(node.bytes))
-        img.thumbnail((self.size, self.size), Image.ANTIALIAS)
-        img = img.convert('RGB')
-        outbuf = io.BytesIO()
-        img.save(outbuf, format='jpeg')
-        bytes = outbuf.getvalue()
+        bytes = b''
         try:
-            os.makedirs(self.path_for(node.parent))
+            from PIL import Image
+            with io.BytesIO(node.bytes) as inbuf, io.BytesIO() as outbuf:
+                with Image.open(inbuf) as img:
+                    img.thumbnail((self.size, self.size), Image.ANTIALIAS)
+                    img = img.convert('RGB')
+                    img.save(outbuf, format='jpeg')
+                    bytes = outbuf.getvalue()
         except:
             pass
-        with open(self.path_for(node), 'wb') as fh:
-            return fh.write(bytes)
+        finally:
+            try:
+                os.makedirs(self.path_for(node.parent))
+            except:
+                pass
+            with open(self.path_for(node), 'wb') as fh:
+                return fh.write(bytes)
+            

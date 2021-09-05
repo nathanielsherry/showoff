@@ -33,6 +33,9 @@ class FilesystemSource(Source):
         return [self.make_link(apath) for (apath, spath) in self.ls(path) if os.path.isdir(spath)]
     
     def get_document_bytes(self, path):
-        print('getbytes for ' + self._dir(path))
-        with open(self._dir(path), 'rb') as fh:
-            return fh.read()
+        try:
+            print('getbytes for ' + self._dir(path))
+            with open(self._dir(path), 'rb') as fh:
+                return fh.read()
+        except:
+            return b''
