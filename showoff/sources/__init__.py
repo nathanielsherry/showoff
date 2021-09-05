@@ -72,8 +72,9 @@ class Node:
     @property
     def title(self):
         title = self.path[-1] if self.path else ''
-        if '.' in title:
-            title = '.'.join(title.split('.')[:-1])
+        #TODO: show filetype as a subtitle? mimetype something something...
+        #if '.' in title:
+        #    title = '.'.join(title.split('.')[:-1])
         return title
     
     def dump(self, deep=False):
