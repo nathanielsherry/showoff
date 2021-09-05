@@ -62,14 +62,7 @@ class CrumbStrip extends NodeRenderer {
               flex-shrink: 0;
               align-items: center;
               justify-content: center;
-              background: url('bg.png'), #C6B791;
-              border: 0px solid #774F38;
-              box-shadow: inset 0px 0.5px 5px 0px #00000050;
-              border-radius: 100px;
-              margin: 10px 10px 0px 10px;
               padding: 5px;
-              min-width: 600px;
-              min-height: 32px;
             }
           `}</style>
           { parent_crumbs }

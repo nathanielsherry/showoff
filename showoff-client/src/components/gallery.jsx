@@ -29,7 +29,7 @@ class GalleryImage extends NodeRenderer {
           
             border: 10px solid #FFFBF3;
             border-radius: 10px;
-            box-shadow: 0px 1px 20px -1px #00000080;
+            box-shadow: 0px 0px 20px -10px #00000080;
             display: inline-block;
             margin: 20px;
             padding: 0px;
@@ -68,7 +68,7 @@ class GalleryLinks extends NodeRenderer {
     const collections = this.node.links.map((l) => this.renderIcon(l));
     const documents = this.node.documents.map((l) => this.renderIcon(l));
     return (
-      <div id='gallery-outer'>
+      <div class='gallery-outer'>
         <style jsx>{`
 
           .gallery-outer {
@@ -78,26 +78,19 @@ class GalleryLinks extends NodeRenderer {
             min-width: 0px;
             height: 100%;
             width: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
+            margin: 0px;
+            overflow-y: auto;            
           }
           .gallery {
             min-height: 0px;
-          }
-          .gallery-links {
-            flex-wrap: wrap;
             justify-content: space-evenly;
-            flex-grow: 0;
-            flex-shrink: 1;
-            margin: 10px;
-            overflow-y: scroll;
+            margin: 20px;
             display: grid;
             grid-template-columns: repeat(auto-fill, 200px);
             grid-template-rows:    repeat(auto-fill, 200px);
           }
         `}</style>
-        <div id='gallery' class='gallery-links'>
+        <div class='gallery'>
           {collections}
           {documents}
         </div>

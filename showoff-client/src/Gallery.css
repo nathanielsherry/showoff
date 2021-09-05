@@ -12,3 +12,11 @@ body {
   justify-content: center;
 }
 
+.headerbar {
+  background: url('bg.png'), #C6B791;
+  box-shadow: inset 0px -10px 6px -12px #00000050;
+  margin: 0px;
+  padding: 5px;
+  min-width: 200px;
+  min-height: 32px;
+}

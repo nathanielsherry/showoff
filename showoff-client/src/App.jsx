@@ -76,12 +76,12 @@ class App extends React.Component {
     const node = this.node;
     return (
       <div className="App">
-      
-        <CrumbStrip
-          app={this} 
-          node={node}
-        />
-      
+        <div class='headerbar'>
+          <CrumbStrip
+            app={this} 
+            node={node}
+          />
+        </div>
         <GalleryView
           app={this} 
           node={node}
