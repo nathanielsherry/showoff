@@ -2,66 +2,25 @@ import React from 'react';
 import './App.css';
 import './Gallery.css';
 import {NodeRenderer} from './components/base';
-import {Icon} from './components/icon';
-import {Crumb, CrumbStrip} from './components/crumb';
-
-class GalleryImage extends NodeRenderer {
-
-  render() {
-    const src = '/api/image/' + this.spath();
-    return (
-      <div id='gallery'>
-        <img class='gallery-image' src={src} alt={this.title()}/>
-      </div>
-    );
-  }
-
-}
-
-class GalleryLinks extends NodeRenderer {
-
-  renderIcon(link) {
-    return (
-      <Icon
-        app={this.app}
-        node={link}
-      />
-    );
-  }
-
-  render() {
-    const collections = this.node.links.map((l) => this.renderIcon(l));
-    const documents = this.node.documents.map((l) => this.renderIcon(l));
-    return (
-      <div id='gallery' class='gallery-links'>
-        {collections}
-        {documents}
-      </div>
-    );
-  }
-
-}
+import {CrumbStrip} from './components/crumb';
+import {GalleryImage, GalleryLinks} from './components/gallery';
 
 class GalleryView extends NodeRenderer {
   renderDoc() {
     return (
-      <div id='gallery-outer'>
-        <GalleryImage
-          app={this.app}
-          node={this.node}
-        />
-      </div>
+      <GalleryImage
+        app={this.app}
+        node={this.node}
+      />
     );
   }
   
   renderLinks() {
     return (
-      <div id='gallery-outer'>
-        <GalleryLinks
-          app={this.app}
-          node={this.node}
-        />
-      </div>
+      <GalleryLinks
+        app={this.app}
+        node={this.node}
+      />
     );
   }
   
