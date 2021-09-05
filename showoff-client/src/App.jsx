@@ -80,11 +80,14 @@ class CrumbStrip extends NodeRenderer {
   }
 
   render() {
-    const crumbs = this.parents().map((p) => this.renderCrumb(p));
+    const parent_crumbs = this.parents().map((p) => this.renderCrumb(p));
+    const this_crumb = this.renderCrumb(this.node);
+    
     return (
       <div class='floating-control'>
         <div id='crumb-strip'>
-          { crumbs }
+          { parent_crumbs }
+          { this_crumb }
         </div>
       </div>
     );
