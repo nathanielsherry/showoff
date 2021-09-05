@@ -1,6 +1,10 @@
+from .thumbnailer import Thumbnailer
 import io, json
 
 class Source:
+    def __init__(self):
+        self._thumbnailer = Thumbnailer(self)
+    
     #Returns a list of Documents
     def list_documents(self, path):
         raise Exception('Unimplemented')
@@ -15,6 +19,8 @@ class Source:
     def at(self, path):
         raise Exception('Unimplemented')
     
+    @property
+    def thumbnailer(self): return self._thumbnailer
     
     @property
     def root(self): return self.make_link([])
@@ -92,12 +98,7 @@ class Document(Node):
     
     @property
     def thumb(self):
-        from PIL import Image
-        img = Image.open(io.BytesIO(self.bytes))
-        img.thumbnail((128, 128), Image.ANTIALIAS)
-        outbuf = io.BytesIO()
-        img.save(outbuf, format='jpeg')
-        return outbuf.getvalue()
+        return self.source.thumbnailer.thumbnail(self)
         
 
 

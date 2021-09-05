@@ -3,6 +3,7 @@ import os
 
 class FilesystemSource(Source):
     def __init__(self, root_directory, settings=None):
+        super().__init__()
         self._root_directory = root_directory
         self._settings = settings or {}      
     
