@@ -17,6 +17,8 @@ body {
   flex-grow: 1;
   flex-shrink: 1;
 
+  border: 10px solid #FFFBF3;
+  border-radius: 10px;
   box-shadow: 0px 1px 20px -1px #00000080;
   display: inline-block;
   margin: 20px;
@@ -26,10 +28,10 @@ body {
   object-fit: contain;
   
   min-width: 0px;
-  max-width: calc(100% - 40px);
+  max-width: calc(100% - 60px);
   
   min-height: 0px;
-  max-height: calc(100% - 40px);
+  max-height: calc(100% - 60px);
 }
 
 
