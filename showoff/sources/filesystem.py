@@ -41,3 +41,8 @@ class FilesystemSource(Source):
         except:
             log.error(traceback.format_exc())
             return b''
+            
+    def get_document_mimetype(self, path):
+        import magic
+        mime = magic.Magic(mime=True)
+        return mime.from_file(self._dir(path))

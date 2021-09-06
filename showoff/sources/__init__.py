@@ -16,6 +16,9 @@ class Source:
     def get_document_bytes(self, path):
         raise Exception('Unimplemented')
     
+    def get_document_mimetype(self, path):
+        raise Exception('Unimplemented')
+    
     def at(self, path):
         raise Exception('Unimplemented')
     
@@ -92,6 +95,9 @@ class Node:
 class Document(Node):
 
     @property
+    def datatype(self): return 'document'
+
+    @property
     def bytes(self): return self.source.get_document_bytes(self.path)
     
     @property
@@ -101,13 +107,14 @@ class Document(Node):
     def thumb(self):
         return self.source.thumbnailer.thumbnail(self)
         
+    def dump(self, deep=True):
+        value = super().dump(deep=deep)
+        value['mimetype'] = self.source.get_document_mimetype(self.path)
+        return value
 
 
 class Image(Document):
 
-    @property
-    def datatype(self): return 'image'
-    
     @property
     def image(self): return self.bytes
     
