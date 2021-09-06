@@ -3,7 +3,7 @@ import './App.css';
 import './Gallery.css';
 import {NodeRenderer} from './components/base';
 import {CrumbStrip} from './components/crumb';
-import {GalleryImage, GalleryLinks} from './components/gallery';
+import {GalleryImage, GalleryIconGrid, GalleryListing} from './components/gallery';
 
 class GalleryView extends NodeRenderer {
   renderDoc() {
@@ -17,7 +17,7 @@ class GalleryView extends NodeRenderer {
   
   renderLinks() {
     return (
-      <GalleryLinks
+      <GalleryListing
         app={this.app}
         node={this.node}
       />

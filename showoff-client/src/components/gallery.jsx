@@ -1,5 +1,5 @@
 import {NodeRenderer} from './base';
-import {Icon} from './icon';
+import {Icon, ListIcon} from './icon';
 
 class GalleryImage extends NodeRenderer {
 
@@ -53,7 +53,18 @@ class GalleryImage extends NodeRenderer {
 
 }
 
-class GalleryLinks extends NodeRenderer {
+class GalleryCollectionView extends NodeRenderer {
+
+  get entries() {
+    const entries = this.node.entries;
+    const collections = entries.filter((e) => e.type === 'collection')
+    const documents = entries.filter((e) => (!(e.type === 'collection')))
+    return collections.concat(documents)
+  }
+
+}
+
+class GalleryIconGrid extends GalleryCollectionView {
 
   renderIcon(link) {
     return (
@@ -65,11 +76,9 @@ class GalleryLinks extends NodeRenderer {
   }
 
   render() {
-    const entries = this.node.entries;
-    const collections = entries.filter((e) => e.type === 'collection')
-    const documents = entries.filter((e) => (!(e.type === 'collection')))
-    const collection_views = collections.map((l) => this.renderIcon(l));
-    const document_views = documents.map((l) => this.renderIcon(l));
+    const entries = this.entries;
+    const views = entries.map((l) => this.renderIcon(l));
+
     return (
       <div class='gallery-outer'>
         <style jsx>{`
@@ -94,8 +103,7 @@ class GalleryLinks extends NodeRenderer {
           }
         `}</style>
         <div class='gallery'>
-          {collection_views}
-          {document_views}
+          {views}
         </div>
       </div>
     );
@@ -103,4 +111,56 @@ class GalleryLinks extends NodeRenderer {
 
 }
 
-export {GalleryImage, GalleryLinks}
+
+class GalleryListing extends GalleryCollectionView {
+
+  renderEntry(link) {
+    return (
+      <ListIcon
+        app={this.app}
+        node={link}
+      />
+    );
+  }
+
+  render() {
+    const entries = this.entries;
+    const views = entries.map((l) => this.renderEntry(l));
+    return (
+      <div class='gallery-outer'>
+        <style jsx>{`
+          .gallery-outer {
+            max-height: 100%;
+            max-width: 100%;
+            min-height: 0px;
+            min-width: 0px;
+            width: 100%;
+            margin: 0px;
+            overflow-y: auto;
+               
+            display: flex;
+            flex-direction: row;  
+            justify-content: center;       
+          }
+          .gallery {
+            min-height: 0px;
+            justify-content: space-evenly;
+            margin: 20px;
+            overflow-y: auto;
+            width: 800px;
+            background: #FFFBF3;
+            border: 5px solid #FFFBF3;
+            border-radius: 5px;
+            box-shadow: 0px 1px 5px -2px #00000080;
+          }
+        `}</style>
+        <div class='gallery'>
+          {views}
+        </div>
+      </div>
+    );
+  }
+
+}
+
+export {GalleryImage, GalleryIconGrid, GalleryListing}
