@@ -27,7 +27,7 @@ class Crumb extends NodeRenderer {
             padding: 0px 5px 0px 5px;
           }
         `}</style>
-        <a href='#' onClick={this.activator}>
+        <a href='#' onClick={this.act}>
           {title}
         </a>
       </div>

@@ -1,6 +1,32 @@
 import React from 'react';
 
-class NodeRenderer extends React.Component {
+class Renderer extends React.Component {
+  /*
+   * props:
+   *  - app: App class
+   *  - action: Function for component's default action, any signature 
+   */
+
+  get app() {
+    return this.props.app;
+  }
+
+  constructor(props) {
+    super(props);
+    this._action_function = this.props.action;
+  }
+  
+  get act() {
+    if (this._action_function == null) {
+      console.log('Component has no default action');
+      return () => {};
+    }
+    return this._action_function;
+  }
+
+}
+
+class NodeRenderer extends Renderer {
   /*
    * props:
    *  - app: App class
@@ -9,11 +35,6 @@ class NodeRenderer extends React.Component {
 
   constructor(props) {
     super(props);
-    this.activator = this.activate.bind(this)
-  }
-
-  get app() {
-    return this.props.app;
   }
 
   get node() {
@@ -39,11 +60,11 @@ class NodeRenderer extends React.Component {
   type() {
     return this.node.type;
   }
-
-  activate() {
-    return this.app.node = this.node;
+  
+  get act() {
+    return () => {this.app.node = this.node};
   }
   
 }
 
-export {NodeRenderer}
+export {Renderer, NodeRenderer}

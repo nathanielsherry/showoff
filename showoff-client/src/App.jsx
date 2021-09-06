@@ -1,9 +1,10 @@
 import React from 'react';
 import './App.css';
 import './Gallery.css';
-import {NodeRenderer} from './components/base';
+import {Renderer, NodeRenderer} from './components/base';
 import {CrumbStrip} from './components/crumb';
 import {GalleryImage, GalleryIconGrid, GalleryListing} from './components/gallery';
+import {RadioStrip} from './components/radio';
 
 class GalleryView extends NodeRenderer {
   renderDoc() {
@@ -15,7 +16,16 @@ class GalleryView extends NodeRenderer {
     );
   }
   
-  renderLinks() {
+  renderIcons() {
+    return (
+      <GalleryIconGrid
+        app={this.app}
+        node={this.node}
+      />
+    );
+  }
+  
+  renderList() {
     return (
       <GalleryListing
         app={this.app}
@@ -26,30 +36,69 @@ class GalleryView extends NodeRenderer {
   
   render() {
     if (this.type() === 'collection') {
-      return this.renderLinks();
+      if (this.app.viewmode == 'icons') {
+      	return this.renderIcons();
+      } else if (this.app.viewmode == 'list') {
+        return this.renderList();
+      } else {
+        console.log("Unknown view mode " + this.app.viewmode);
+        return this.renderIcons();
+      }
     } else {
       return this.renderDoc();
     }
   }
 }
 
+class GalleryViewControls extends Renderer {
+
+  render() {
+    return (
+      <RadioStrip
+        app={this.app}
+        action={(mode) => {this.app.viewmode = mode}}
+        options={this.app.viewmodes}
+      />
+    );
+  }
+}
 
 class App extends React.Component {
+
+  viewmodes = ['icons', 'list'];
 
   constructor (props) {
     super(props);
     this.state = {
       node: null,
+      viewmode: 'icons',
     };
   }
 
   componentDidMount() {
     this.path = '/';
   }
+  
+  updateState(values) {
+    const newState = Object.assign({}, this.state, values)
+    this.setState(newState);
+  }
+  
+  get viewmode() {
+    return this.state.viewmode;
+  }
+  
+  set viewmode(mode) {
+    if (! this.viewmodes.includes(mode) ) {
+      console.log("Invalid view mode " + mode);
+    } else {
+      this.updateState({viewmode: mode})
+    }
+  }
 
   set node(node) {
     if (node.deep) {
-      this.setState({node: node});
+      this.updateState({node: node});
     } else {
       this.path = node.path.join('/');
     }
@@ -66,7 +115,7 @@ class App extends React.Component {
       .then((node) => {
         console.log('Received node for new path:');
         console.log(node)
-        this.setState({node: node});
+        this.updateState({node: node});
       });
   }
 
@@ -77,6 +126,9 @@ class App extends React.Component {
     return (
       <div className="App">
         <div class='headerbar'>
+          <GalleryViewControls
+            app={this}
+          />
           <CrumbStrip
             app={this} 
             node={node}

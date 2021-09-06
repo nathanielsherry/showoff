@@ -36,7 +36,7 @@ class Icon extends NodeRenderer {
           
           }
         `}</style>
-        <div onClick={this.activator} class='icon-inner'>
+        <div onClick={this.act} class='icon-inner'>
           <img 
             class='icon-image'
             src={src}
@@ -57,33 +57,27 @@ class ListIcon extends NodeRenderer {
   render() {
     const src = '/api/thumb/' + this.spath();
     return (
-      <div class='icon'>
+      <div class='listicon'>
         <style jsx>{`
-          .icon {
+          .listicon {
             margin: 10px;
             padding: 0px;
             flex-basis: min-content;
             word-wrap: break-word;
-            height: 32px;
+            height: 48px;
             display: flex;
             flex-direction: column;
             justify-content: center;
           }
           
-          .icon-inner {
+          .listicon-inner {
             display: flex;
             flex-direction: row;
             justify-content: center;
             flex-basis: min-content;          
           }
-          
-          .icon-image {
-            max-width: 32px;
-            max-height: 32px;
-            flex-grow: 0;
-          }
-          
-          .icon-text {
+                   
+          .listicon-text {
             color: #495575;
             flex-grow: 0;
             display: flex;
@@ -92,35 +86,62 @@ class ListIcon extends NodeRenderer {
             padding: 0px 5px 0px 5px;
           }
           
-          .icon-spacing {
+          .listicon-spacing {
             flex-grow: 1;
           }
           
-          .icon-stats {
+          .listicon-stats {
             color: #495575;
             flex-grow: 0;
           }
+
+          .listicon-image-inner {
+            width: auto;
+            height: auto;
+          }
           
-          .icon img {
-            max-width: 32px;
-            max-height: 32px;
+          .listicon-image-x {
+            width: 48px;
+            height: 48px;
+            flex-grow: 0;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+          }
+          
+          .listicon-image-y {
+            width: auto;
+            height: auto;
+            flex-grow: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+          }
+          
+          .listicon-inner img {
+            max-width: 48px;
+            max-height: 48px;
+            display: block;
           }
         `}</style>
-        <div onClick={this.activator} class='icon-inner'>
-          <img
-            class='icon-image'
-            src={src}
-            alt={this.title()}
-          />
-          <div class='icon-text'>
+        <div onClick={this.act} class='listicon-inner'>
+          <div class='listicon-image-x'>
+            <div class='listicon-image-y'>
+              <img
+                src={src}
+                alt={this.title()}
+              />
+            </div>
+          </div>
+          <div class='listicon-text'>
             <span>
               {this.title()}
             </span>
           </div>
-          <div class='icon-spacing'>
+          <div class='listicon-spacing'>
             
           </div>
-          <div class='icon-stats'>
+          <div class='listicon-stats'>
             
           </div>
         </div>
