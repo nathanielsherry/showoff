@@ -36,16 +36,15 @@ class Icon extends NodeRenderer {
           
           }
         `}</style>
-        <div class='icon-inner'>
+        <div onClick={this.activator} class='icon-inner'>
           <img 
             class='icon-image'
-            onClick={this.activator} 
             src={src}
             alt={this.title()}
-          /><br/>
-          <span class='icon-text'>
+          />
+          <div class='icon-text'>
             {this.title()}
-          </span>
+          </div>
         </div>
       </div>
     );
@@ -65,17 +64,22 @@ class ListIcon extends NodeRenderer {
             padding: 0px;
             flex-basis: min-content;
             word-wrap: break-word;
+            height: 32px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
           }
           
           .icon-inner {
             display: flex;
             flex-direction: row;
-            justify-content: center;          
+            justify-content: center;
+            flex-basis: min-content;          
           }
           
           .icon-image {
-            width: 32px;
-            height: 32px;
+            max-width: 32px;
+            max-height: 32px;
             flex-grow: 0;
           }
           
@@ -98,16 +102,16 @@ class ListIcon extends NodeRenderer {
           }
           
           .icon img {
-          
+            max-width: 32px;
+            max-height: 32px;
           }
         `}</style>
-        <div class='icon-inner'>
-          <img 
+        <div onClick={this.activator} class='icon-inner'>
+          <img
             class='icon-image'
-            onClick={this.activator} 
             src={src}
             alt={this.title()}
-          /><br/>
+          />
           <div class='icon-text'>
             <span>
               {this.title()}
