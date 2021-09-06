@@ -65,8 +65,11 @@ class GalleryLinks extends NodeRenderer {
   }
 
   render() {
-    const collections = this.node.links.map((l) => this.renderIcon(l));
-    const documents = this.node.documents.map((l) => this.renderIcon(l));
+    const entries = this.node.entries;
+    const collections = entries.filter((e) => e.type === 'collection')
+    const documents = entries.filter((e) => (!(e.type === 'collection')))
+    const collection_views = collections.map((l) => this.renderIcon(l));
+    const document_views = documents.map((l) => this.renderIcon(l));
     return (
       <div class='gallery-outer'>
         <style jsx>{`
@@ -91,8 +94,8 @@ class GalleryLinks extends NodeRenderer {
           }
         `}</style>
         <div class='gallery'>
-          {collections}
-          {documents}
+          {collection_views}
+          {document_views}
         </div>
       </div>
     );

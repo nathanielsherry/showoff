@@ -12,7 +12,7 @@ class FilesystemSource(Source):
        
     def ls(self, apath):
         spath = self._dir(apath)
-        entries = os.listdir(spath)
+        entries = sorted(os.listdir(spath))
         if not self._settings.get('show-hidden', False):
             entries = [e for e in entries if not e.startswith('.')]
         return [(apath + [entry], spath + '/' + entry) for entry in entries]

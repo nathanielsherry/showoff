@@ -136,6 +136,8 @@ class Collection(Node):
     def dump(self, deep=True):
         value = super().dump(deep=deep)
         if deep:
-            value['links'] = [n.dump(deep=False) for n in self.links]
-            value['documents'] = [n.dump(deep=False) for n in self.documents]
+            entries = []
+            entries += [n.dump(deep=False) for n in self.links]
+            entries += [n.dump(deep=False) for n in self.documents]
+            value['entries'] = entries
         return value
