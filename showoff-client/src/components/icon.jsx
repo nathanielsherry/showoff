@@ -1,4 +1,5 @@
 import {NodeRenderer} from './base';
+import {strftime, humanFileSize} from '../util';
 
 class Icon extends NodeRenderer {
 
@@ -56,8 +57,29 @@ class Icon extends NodeRenderer {
 
 class ListIcon extends NodeRenderer {
 
+  renderDetail(s) {
+    return (<span>{s}</span>);
+  }
+  
+  formatTime(t) {
+    const date = new Date(t*1000);
+    return strftime(date, '%Y-%m-%d %H:%M:%S');
+  }
+  
+  formatSize(s) {
+    return humanFileSize(s);
+  }
+
   render() {
     const src = '/api/thumb/' + this.spath();
+    
+    var details = []
+    if (this.mimetype) { details = details.concat(this.mimetype); }
+    if (this.filesize) { details = details.concat(this.formatSize(this.filesize)); }
+    if (this.times)    { details = details.concat(this.formatTime(this.times.mtime)); }
+    console.log(details);
+    details = details.map((d) => this.renderDetail(d));
+    
     return (
       <div class='listicon'>
         <style jsx>{`
@@ -101,6 +123,7 @@ class ListIcon extends NodeRenderer {
             display: flex;
             flex-direction: column;
             justify-content: center;
+            text-align: right;
           }
 
           .listicon-image-inner {
@@ -150,7 +173,7 @@ class ListIcon extends NodeRenderer {
             
           </div>
           <div class='listicon-stats'>
-            {this.mimetype}
+            {details}
           </div>
         </div>
       </div>

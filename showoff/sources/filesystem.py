@@ -42,6 +42,17 @@ class FilesystemSource(Source):
             log.error(traceback.format_exc())
             return b''
             
+    def get_document_size(self, path):
+        return os.path.getsize(self._dir(path))
+
+    def get_document_times(self, path):
+        p = self._dir(path)
+        return {
+            'mtime': os.path.getmtime(p),
+            'ctime': os.path.getctime(p),
+            'atime': os.path.getatime(p),
+        }
+
     def get_document_mimetype(self, path):
         import magic
         mime = magic.Magic(mime=True)

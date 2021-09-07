@@ -16,6 +16,12 @@ class Source:
     def get_document_bytes(self, path):
         raise Exception('Unimplemented')
     
+    def get_document_size(self, path):
+        raise Exception('Unimplemented')
+
+    def get_document_times(self, path):
+        raise Exception('Unimplemented')
+    
     def get_document_mimetype(self, path):
         raise Exception('Unimplemented')
     
@@ -39,6 +45,9 @@ class Source:
         if not isinstance(document, Document):
             raise Exception('Node is not a Document')
         return document
+    
+
+
     
     #TODO
     def make_document(self, path): return Image(self, path)
@@ -106,10 +115,21 @@ class Document(Node):
     @property
     def thumb(self):
         return self.source.thumbnailer.thumbnail(self)
-        
+    
+    @property
+    def mimetype(self): return self.source.get_document_mimetype(self.path)
+    
+    @property
+    def size(self): return self.source.get_document_size(self.path)
+    
+    @property
+    def times(self): return self.source.get_document_times(self.path)
+    
     def dump(self, deep=True):
         value = super().dump(deep=deep)
-        value['mimetype'] = self.source.get_document_mimetype(self.path)
+        value['mimetype'] = self.mimetype
+        value['size'] = self.size
+        value['times'] = self.times
         return value
 
 
