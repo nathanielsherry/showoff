@@ -61,6 +61,14 @@ class NodeRenderer extends Renderer {
     return () => {this.app.node = this.node};
   }
   
+  get mimetype() {
+    if ('mimetype' in this.node) {
+      return this.node.mimetype;
+    } else {
+      return null;
+    }
+  }
+  
 }
 
 export {Renderer, NodeRenderer}

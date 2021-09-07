@@ -94,8 +94,13 @@ class ListIcon extends NodeRenderer {
           }
           
           .listicon-stats {
-            color: #495575;
+            color: #49557580;
             flex-grow: 0;
+            font-family: mono;
+            font-size: 9pt;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
           }
 
           .listicon-image-inner {
@@ -145,7 +150,7 @@ class ListIcon extends NodeRenderer {
             
           </div>
           <div class='listicon-stats'>
-            
+            {this.mimetype}
           </div>
         </div>
       </div>
