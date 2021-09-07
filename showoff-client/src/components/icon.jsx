@@ -30,19 +30,21 @@ class Icon extends NodeRenderer {
           
           .icon-text {
             color: #495575;
+            cursor: pointer;
           }
           
           .icon img {
-          
+            cursor: pointer;
           }
         `}</style>
-        <div onClick={this.act} class='icon-inner'>
-          <img 
+        <div class='icon-inner'>
+          <img
+            onClick={this.act} 
             class='icon-image'
             src={src}
             alt={this.title()}
           />
-          <div class='icon-text'>
+          <div class='icon-text' onClick={this.act}>
             {this.title()}
           </div>
         </div>
@@ -74,7 +76,8 @@ class ListIcon extends NodeRenderer {
             display: flex;
             flex-direction: row;
             justify-content: center;
-            flex-basis: min-content;          
+            flex-basis: min-content;
+            cursor: pointer;    
           }
                    
           .listicon-text {
