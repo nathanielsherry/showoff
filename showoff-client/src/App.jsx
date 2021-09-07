@@ -36,12 +36,13 @@ class GalleryView extends NodeRenderer {
   
   render() {
     if (this.type() === 'collection') {
-      if (this.app.viewmode == 'icons') {
+      if (this.app.viewmode.value === 'icons') {
       	return this.renderIcons();
-      } else if (this.app.viewmode == 'list') {
+      } else if (this.app.viewmode.value === 'list') {
         return this.renderList();
       } else {
-        console.log("Unknown view mode " + this.app.viewmode);
+        console.log("Unknown view mode:");
+        console.log(this.app.viewmode);
         return this.renderIcons();
       }
     } else {
@@ -54,24 +55,45 @@ class GalleryViewControls extends Renderer {
 
   render() {
     return (
-      <RadioStrip
-        app={this.app}
-        action={(mode) => {this.app.viewmode = mode}}
-        options={this.app.viewmodes}
-      />
+      <div id='gallery-view-controls'>
+        <style jsx>{`
+          #gallery-view-controls {
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            padding: 2px;
+          }
+        `}
+        </style>
+        <RadioStrip
+          app={this.app}
+          action={(mode) => {this.app.viewmode = mode}}
+          options={this.app.viewmodes}
+          current={this.app.viewmode}
+          size='24'
+        />
+      </div>
     );
   }
 }
 
 class App extends React.Component {
 
-  viewmodes = ['icons', 'list'];
+  viewmodes = [{
+    title: 'Icons',
+    value: 'icons',
+    url: '/icons/gallery-view-icons.png',
+  },{
+    title: 'List',
+    value: 'list',
+    url: '/icons/gallery-view-list.png',
+  }];
 
   constructor (props) {
     super(props);
     this.state = {
       node: null,
-      viewmode: 'icons',
+      viewmode: this.viewmodes[0],
     };
   }
 

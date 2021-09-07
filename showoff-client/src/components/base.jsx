@@ -33,10 +33,6 @@ class NodeRenderer extends Renderer {
    *  - node: Struct for node in document graph
    */
 
-  constructor(props) {
-    super(props);
-  }
-
   get node() {
     return this.props.node;
   }

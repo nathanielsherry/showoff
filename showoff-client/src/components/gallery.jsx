@@ -148,7 +148,7 @@ class GalleryListing extends GalleryCollectionView {
             margin: 20px;
             overflow-y: auto;
             width: 800px;
-            background: #FFFBF380;
+            background: #FFFBF3;
             padding: 5px;
             border-radius: 5px;
             box-shadow: 0px 1px 5px -2px #00000080;
