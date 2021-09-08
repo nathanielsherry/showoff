@@ -40,6 +40,10 @@ class NodeRenderer extends Renderer {
   get node() {
     return this.props.node;
   }
+  
+  get cursor() {
+    return this.node.cursor;
+  }
 
   path() {
     return this.node.path;

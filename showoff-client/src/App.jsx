@@ -137,7 +137,7 @@ class App extends React.Component {
       .then((node) => {
         console.log('Received node for new path:');
         console.log(node)
-        this.updateState({node: node});
+        this.node = node;
       });
   }
 

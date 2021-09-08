@@ -53,6 +53,52 @@ class Source:
     def make_document(self, path): return Image(self, path)
     def make_link(self, path): return Collection(self, path)
 
+class Cursor:
+    @property
+    def previous(self): raise Exception("Unimplemented")
+    
+    @property
+    def next(self): raise Exception("Unimplemented")
+    
+    @property
+    def index(self): raise Exception("Unimplemented")
+    
+    @property
+    def size(self): raise Exception("Unimplemented")
+    
+    @property
+    def has_next(self): return self.next != None
+    
+    @property
+    def has_previous(self): return self.previous != None
+    
+    def dump(self):
+        return {
+            'previous': self.previous.dump(deep=False) if self.previous else None,
+            'next': self.next.dump(deep=False) if self.next else None,
+            'index': self.index,
+            'size': self.size,
+        }
+        
+class EasyCursor(Cursor):
+    def __init__(self, previous, next, size, index):
+        self._previous = previous
+        self._next = next
+        self._size = size
+        self._index = index
+        
+    @property
+    def previous(self): return self._previous
+    
+    @property
+    def next(self): return self._next
+    
+    @property
+    def index(self): return self._index
+    
+    @property
+    def size(self): return self._size
+
 class Node:
     def __init__(self, source, path):
         self._source = source
@@ -68,7 +114,7 @@ class Node:
     def parent(self):
         if self.path: 
             return self.source.at(self.path[:-1])
-        return self.source.at([])
+        return None
     
     @property
     def parents(self):
@@ -88,7 +134,7 @@ class Node:
         #if '.' in title:
         #    title = '.'.join(title.split('.')[:-1])
         return title
-    
+        
     def dump(self, deep=False):
         data = {
             'title': self.title,
@@ -125,11 +171,36 @@ class Document(Node):
     @property
     def times(self): return self.source.get_document_times(self.path)
     
+    @property
+    def cursor(self):
+        parent = self.parent
+        siblings = parent.documents
+        size = len(siblings)
+        index = None
+        for i in range(0, size):
+            if siblings[i].path == self.path:
+                index = i
+                break
+        if index == None:
+            raise Exception('Cannot find self in parent')
+        
+        pi = index-1
+        ni = index+1
+        previous = None
+        next = None
+        if pi >= 0: previous = siblings[pi]
+        if ni < size: next = siblings[ni]
+        
+        return EasyCursor(previous, next, size, index)
+        
+    
     def dump(self, deep=True):
         value = super().dump(deep=deep)
         value['mimetype'] = self.mimetype
         value['size'] = self.size
         value['times'] = self.times
+        if deep:
+            value['cursor'] = self.cursor.dump()
         return value
 
 
@@ -150,6 +221,13 @@ class Collection(Node):
         return self.source.list_links(self.path)
     
     @property
+    def entries(self):
+        return self.links + self.documents;
+    
+    @property
+    def size(self): return len(self.entries)
+    
+    @property
     def parent(self):
         return self.source.make_link(self.path[:-1])
         
@@ -163,8 +241,5 @@ class Collection(Node):
     def dump(self, deep=True):
         value = super().dump(deep=deep)
         if deep:
-            entries = []
-            entries += [n.dump(deep=False) for n in self.links]
-            entries += [n.dump(deep=False) for n in self.documents]
-            value['entries'] = entries
+            value['entries'] = [n.dump(deep=False) for n in self.entries]
         return value

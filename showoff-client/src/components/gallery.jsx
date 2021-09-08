@@ -1,6 +1,63 @@
 import {NodeRenderer} from './base';
 import {Icon, ListIcon} from './icon';
 
+class GalleryNavButton extends NodeRenderer {
+
+  act(node) {
+    if (node) {
+      this.app.node = node;
+    }
+  }
+
+  render() {
+    const buttonStyle = 'gallery-nav-button ';
+    const leftStyle  = 'gallery-nav-button-left ';
+    const rightStyle  = 'gallery-nav-button-right ';
+    const disabledStyle = 'gallery-nav-button-disabled ';
+    
+    var targetNode;
+    var style = buttonStyle;
+    if (this.props.forward) {
+      targetNode = this.cursor.next;
+      style += rightStyle;
+    } else {
+      targetNode = this.cursor.previous;
+      style += leftStyle;
+    }
+    if (!targetNode) {
+      style += disabledStyle;
+    }
+
+    return (
+      <div onClick={() => this.act(targetNode)} class={style}>
+        <style jsx>{`
+          .gallery-nav-button {
+            border-radius: 20px;
+            height: 32px;
+            width: 32px;
+            position: absolute;
+            top: calc(50% - 16px);
+            box-shadow: 0px 0px 5px -2px #00000080; 
+          }
+          .gallery-nav-button-disabled {
+            background: #FFFBF340 !important;
+          }
+          .gallery-nav-button-left {
+            background: url(/icons/gallery-nav-left.png) center no-repeat, #FFFBF3;
+            left: 4px;
+          }
+          .gallery-nav-button-right {
+            background: url(/icons/gallery-nav-right.png) center no-repeat, #FFFBF3;
+            left: calc(100% - 38px);
+          }
+        `}
+        </style>
+      </div>
+    );
+  }
+
+}
+
 class GalleryImage extends NodeRenderer {
 
   render() {
@@ -19,6 +76,8 @@ class GalleryImage extends NodeRenderer {
             display: flex;
             flex-direction: column;
             justify-content: center;
+            /* so the abs position below is relative to this */
+            position: relative; 
           }
           .gallery {
             min-height: 0px;
@@ -44,9 +103,19 @@ class GalleryImage extends NodeRenderer {
             max-height: calc(100% - 60px);
           }
         `}</style>
+        <GalleryNavButton
+          forward={false}
+          app={this.app}
+          node={this.node}
+        />
         <div class='gallery'>
           <img class='gallery-image' src={src} alt={this.title()}/>
         </div>
+        <GalleryNavButton
+          forward={true}
+          app={this.app}
+          node={this.node}
+        />
       </div>
     );
   }
@@ -147,7 +216,7 @@ class GalleryListing extends GalleryCollectionView {
             justify-content: space-evenly;
             margin: 20px;
             overflow-y: auto;
-            width: 800px;
+            width: 600px;
             background: #FFFBF3;
             padding: 5px;
             border-radius: 5px;
