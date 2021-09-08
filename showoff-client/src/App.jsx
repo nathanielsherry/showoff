@@ -3,7 +3,7 @@ import './App.css';
 import './Gallery.css';
 import {Renderer, NodeRenderer} from './components/base';
 import {CrumbStrip} from './components/crumb';
-import {GalleryImage, GalleryIconGrid, GalleryListing} from './components/gallery';
+import {GalleryImage, GalleryIconGrid, GalleryListing, GalleryNavStrip} from './components/gallery';
 import {RadioStrip} from './components/radio';
 
 class GalleryView extends NodeRenderer {
@@ -153,6 +153,10 @@ class App extends React.Component {
           />
           <CrumbStrip
             app={this} 
+            node={node}
+          />
+          <GalleryNavStrip
+            app={this}
             node={node}
           />
         </div>

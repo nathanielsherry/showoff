@@ -10,6 +10,10 @@ class GalleryNavButton extends NodeRenderer {
   }
 
   render() {
+    if (! this.cursor) {
+      return '';
+    }
+  
     const buttonStyle = 'gallery-nav-button ';
     const leftStyle  = 'gallery-nav-button-left ';
     const rightStyle  = 'gallery-nav-button-right ';
@@ -19,36 +23,31 @@ class GalleryNavButton extends NodeRenderer {
     var style = buttonStyle;
     if (this.props.forward) {
       targetNode = this.cursor.next;
-      style += rightStyle;
+      style += targetNode ? rightStyle : disabledStyle;
     } else {
       targetNode = this.cursor.previous;
-      style += leftStyle;
-    }
-    if (!targetNode) {
-      style += disabledStyle;
+      style += targetNode ? leftStyle : disabledStyle;
     }
 
     return (
       <div onClick={() => this.act(targetNode)} class={style}>
         <style jsx>{`
           .gallery-nav-button {
-            border-radius: 20px;
-            height: 32px;
-            width: 32px;
-            position: absolute;
-            top: calc(50% - 16px);
+            border-radius: 5px;
+            height: 24px;
+            width: 24px;
+            margin: 2px;
+            padding: 3px;
             box-shadow: 0px 0px 5px -2px #00000080; 
           }
           .gallery-nav-button-disabled {
             background: #FFFBF340 !important;
           }
           .gallery-nav-button-left {
-            background: url(/icons/gallery-nav-left.png) center no-repeat, #FFFBF3;
-            left: 4px;
+            background: url(/icons/gallery-nav-left.png) center no-repeat, #FFFBF340;
           }
           .gallery-nav-button-right {
-            background: url(/icons/gallery-nav-right.png) center no-repeat, #FFFBF3;
-            left: calc(100% - 38px);
+            background: url(/icons/gallery-nav-right.png) center no-repeat, #FFFBF340;
           }
         `}
         </style>
@@ -56,6 +55,44 @@ class GalleryNavButton extends NodeRenderer {
     );
   }
 
+}
+
+
+class GalleryNavStrip extends NodeRenderer {
+
+  render() {
+    return (
+      <div class='gallery-nav-controls'>
+        <style jsx>{`
+          .gallery-nav-controls {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            padding: 2px;
+          }
+          .gallery-nav-strip {
+            display: flex;
+            flex-direction: row;
+            padding: 2px;
+          }
+        `}</style>
+        <div class='floating-control'>
+          <div class='gallery-nav-strip'>
+            <GalleryNavButton
+              forward={false}
+              app={this.app}
+              node={this.node}
+            />
+            <GalleryNavButton
+              forward={true}
+              app={this.app}
+              node={this.node}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
 
 class GalleryImage extends NodeRenderer {
@@ -103,19 +140,9 @@ class GalleryImage extends NodeRenderer {
             max-height: calc(100% - 60px);
           }
         `}</style>
-        <GalleryNavButton
-          forward={false}
-          app={this.app}
-          node={this.node}
-        />
         <div class='gallery'>
           <img class='gallery-image' src={src} alt={this.title()}/>
         </div>
-        <GalleryNavButton
-          forward={true}
-          app={this.app}
-          node={this.node}
-        />
       </div>
     );
   }
@@ -232,4 +259,4 @@ class GalleryListing extends GalleryCollectionView {
 
 }
 
-export {GalleryImage, GalleryIconGrid, GalleryListing}
+export {GalleryImage, GalleryIconGrid, GalleryListing, GalleryNavStrip}
