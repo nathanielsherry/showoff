@@ -1,7 +1,8 @@
 #!/usr/bin/python
 
-import sys, json, io
+import sys, json, io, traceback
 from flask import Flask, url_for, send_file
+from showoff import log
 from showoff.sources.filesystem import FilesystemSource
 from showoff.sources import Collection, Document
 
@@ -28,8 +29,11 @@ def split_path(path):
 @app.route('/api/list/', defaults={'path': ''})
 @app.route('/api/list/<path:path>')
 def list(path):
-    node = source.at(split_path(path))  
-    return node.dump(deep=True)
+    try:
+        node = source.at(split_path(path))  
+        return node.dump(deep=True)
+    except:
+        log(traceback.format_exc())
 
 @app.route('/api/image/<path:path>')
 def image(path):
