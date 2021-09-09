@@ -5,9 +5,11 @@ from flask import Flask, url_for, send_file
 from showoff.sources.filesystem import FilesystemSource
 from showoff.sources import Collection, Document
 
-root_dir = sys.argv[1]
-source = FilesystemSource(root_dir)
-app = Flask(__name__, static_url_path='/')
+source = None
+if len(sys.argv) > 1:
+    root_dir = sys.argv[1]
+    source = FilesystemSource(root_dir)
+app = Flask("ShowOff", static_url_path='/')
 app.url_map.strict_slashes = False
 
 @app.before_request
@@ -49,4 +51,4 @@ def thumb(path):
             mimetype=node.datatype)
 
 if __name__ == "__main__":
-    app.run(debug=True) 
+    app.run(debug=True, host='0.0.0.0', port=5000) 
