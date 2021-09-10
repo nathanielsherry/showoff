@@ -96,6 +96,10 @@ class App extends React.Component {
       viewmode: this.viewmodes[0],
     };
   }
+  
+  get prefix() {
+    return '/gallery';
+  }
 
   componentDidMount() {
     this.path = '/';
@@ -132,7 +136,7 @@ class App extends React.Component {
   
   set path(spath) {
     console.log('Navigating to path: ' + spath);
-    fetch('/api/list/' + spath)
+    fetch(this.prefix + '/api/list/' + spath)
       .then((r) => r.json())
       .then((node) => {
         console.log('Received node for new path:');

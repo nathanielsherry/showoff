@@ -4,7 +4,6 @@ import {strftime, humanFileSize} from '../util';
 class Icon extends NodeRenderer {
 
   render() {
-    const src = '/api/thumb/' + this.spath();
     return (
       <div class='icon'>
         <style jsx>{`
@@ -42,7 +41,7 @@ class Icon extends NodeRenderer {
           <img
             onClick={this.act} 
             class='icon-image'
-            src={src}
+            src={this.makepath('thumb')}
             alt={this.title()}
           />
           <div class='icon-text' onClick={this.act}>
@@ -70,9 +69,7 @@ class ListIcon extends NodeRenderer {
     return humanFileSize(s);
   }
 
-  render() {
-    const src = '/api/thumb/' + this.spath();
-    
+  render() {   
     var details = []
     if (this.mimetype) { details = details.concat(this.mimetype); }
     if (this.filesize) { details = details.concat(this.formatSize(this.filesize)); }
@@ -159,7 +156,7 @@ class ListIcon extends NodeRenderer {
           <div class='listicon-image-x'>
             <div class='listicon-image-y'>
               <img
-                src={src}
+                src={this.makepath('thumb')}
                 alt={this.title()}
               />
             </div>

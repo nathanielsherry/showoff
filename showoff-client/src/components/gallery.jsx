@@ -98,7 +98,7 @@ class GalleryNavStrip extends NodeRenderer {
 class GalleryImage extends NodeRenderer {
 
   render() {
-    const src = '/api/image/' + this.spath();
+    const src = this.makepath('image');
     return (
       <div class='gallery-outer'>
         <style jsx>{`

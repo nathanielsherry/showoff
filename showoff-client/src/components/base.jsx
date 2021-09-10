@@ -53,6 +53,10 @@ class NodeRenderer extends Renderer {
     return this.path().join('/');
   }
   
+  makepath(infix) {
+    return this.app.prefix + '/' + infix + '/' + this.spath();
+  }
+  
   parents() {
     return this.node.parents;
   }
