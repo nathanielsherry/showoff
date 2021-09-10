@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 import sys, json, io, traceback
-from flask import Flask, url_for, send_file
+from flask import Flask, url_for, send_file, jsonify
 from showoff import log
 from showoff.sources.filesystem import FilesystemSource
 from showoff.sources import Collection, Document
@@ -13,7 +13,7 @@ if len(sys.argv) > 1:
 app = Flask("ShowOff", static_url_path='/')
 app.url_map.strict_slashes = False
 
-@app.before_request
+#@app.before_request
 def clean_path():
     from flask import redirect, request
     path = request.path
@@ -31,7 +31,7 @@ def split_path(path):
 def list(path):
     try:
         node = source.at(split_path(path))  
-        return node.dump(deep=True)
+        return jsonify(node.dump(deep=True))
     except:
         log(traceback.format_exc())
 
