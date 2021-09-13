@@ -1,4 +1,5 @@
 import tempfile, os, io, traceback
+from showoff import log
 
 class Thumbnailer:
     def __init__(self, source, size=128):

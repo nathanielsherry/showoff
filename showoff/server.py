@@ -7,10 +7,12 @@ from showoff.sources.filesystem import FilesystemSource
 from showoff.sources import Collection, Document
 
 source = None
+static = None
+
 if len(sys.argv) > 1:
     root_dir = sys.argv[1]
     source = FilesystemSource(root_dir)
-app = Flask("ShowOff", static_url_path='/')
+app = Flask("ShowOff", static_url_path='')
 app.url_map.strict_slashes = False
 
 #@app.before_request
@@ -26,8 +28,8 @@ def split_path(path):
     path = path.split('/')
     return [p for p in path if p]
 
-@app.route('/api/list/', defaults={'path': ''})
-@app.route('/api/list/<path:path>')
+@app.route('/list/', defaults={'path': ''})
+@app.route('/list/<path:path>')
 def list(path):
     try:
         node = source.at(split_path(path))  
@@ -35,19 +37,19 @@ def list(path):
     except:
         log(traceback.format_exc())
 
-@app.route('/api/image/<path:path>')
+@app.route('/image/<path:path>')
 def image(path):
     node = source.document_at(split_path(path))
     return send_file(
         io.BytesIO(node.image),
         mimetype=node.datatype)
 
-@app.route('/api/thumb/<path:path>')
+@app.route('/thumb/<path:path>')
 def thumb(path):
     node = source.at(split_path(path))
     if node.datatype == 'collection':
         return send_file(
-            './static/folder.png',
+            static + 'folder.png',
             mimetype='image')
     else:
         return send_file(

@@ -54,7 +54,7 @@ class NodeRenderer extends Renderer {
   }
   
   makepath(infix) {
-    return this.app.prefix + '/' + infix + '/' + this.spath();
+    return this.app.prefix + '/api/' + infix + '/' + this.spath();
   }
   
   parents() {
