@@ -48,7 +48,8 @@ class RadioButton extends Renderer {
             background: #FFFBF340;
             padding: 3px;
             border-radius: 5px;
-            box-shadow: 0px 1px 5px -2px #00000080;          
+            box-shadow: 0px 1px 5px -2px #00000080;
+            border: 1px solid #ffffff20;          
           }
           
           .radiobutton img {
@@ -89,9 +90,9 @@ class RadioStrip extends Renderer {
     
     return (
       <div class='floating-control'>
-        <div id='radio-strip'>
+        <div class='radio-strip unselectable'>
           <style jsx>{`
-            #radio-strip {
+            .radio-strip {
               display: flex;
               flex-direction: row;
               flex-grow: 0;

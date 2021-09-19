@@ -14,9 +14,19 @@ body {
 
 .headerbar {
   background: url('bg.png'), #C6B791;
-  box-shadow: inset 0px -10px 6px -12px #00000050;
+  box-shadow: inset 0px -20px 8px -21px #00000050;
   margin: 0px;
   padding: 5px;
   min-width: 200px;
   min-height: 32px;
 }
+
+.unselectable {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+

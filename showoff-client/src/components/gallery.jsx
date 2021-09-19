@@ -38,7 +38,8 @@ class GalleryNavButton extends NodeRenderer {
             width: 24px;
             margin: 2px;
             padding: 3px;
-            box-shadow: 0px 0px 5px -2px #00000080; 
+            box-shadow: 0px 0px 5px -2px #00000080;
+            border: 1px solid #ffffff20;
           }
           .gallery-nav-button-disabled {
             background: #FFFBF340 !important;
@@ -62,7 +63,7 @@ class GalleryNavStrip extends NodeRenderer {
 
   render() {
     return (
-      <div class='gallery-nav-controls'>
+      <div class='gallery-nav-controls unselectable'>
         <style jsx>{`
           .gallery-nav-controls {
             position: absolute;
@@ -100,7 +101,7 @@ class GalleryImage extends NodeRenderer {
   render() {
     const src = this.makepath('image');
     return (
-      <div class='gallery-outer'>
+      <div class='gallery-outer unselectable'>
         <style jsx>{`
 
           .gallery-outer {
@@ -113,8 +114,9 @@ class GalleryImage extends NodeRenderer {
             display: flex;
             flex-direction: column;
             justify-content: center;
+            border-top: 1px solid #ffffff20;
             /* so the abs position below is relative to this */
-            position: relative; 
+            position: relative;
           }
           .gallery {
             min-height: 0px;

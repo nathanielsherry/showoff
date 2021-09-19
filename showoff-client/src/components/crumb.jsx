@@ -54,7 +54,7 @@ class CrumbStrip extends NodeRenderer {
     
     return (
       <div class='floating-control'>
-        <div id='crumb-strip'>
+        <div id='crumb-strip' class='unselectable'>
           <style jsx>{`
             #crumb-strip {
               display: flex;
