@@ -6,6 +6,8 @@ import {CrumbStrip} from './components/crumb';
 import {GalleryImage, GalleryIconGrid, GalleryListing, GalleryNavStrip} from './components/gallery';
 import {RadioStrip} from './components/radio';
 
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+
 class GalleryView extends NodeRenderer {
   renderDoc() {
     return (
@@ -77,16 +79,16 @@ class GalleryViewControls extends Renderer {
   }
 }
 
-class App extends React.Component {
+class Gallery extends React.Component {
 
   viewmodes = [{
     title: 'Icons',
     value: 'icons',
-    url: '/icons/gallery-view-icons.png',
+    url: '/gallery/icons/gallery-view-icons.png',
   },{
     title: 'List',
     value: 'list',
-    url: '/icons/gallery-view-list.png',
+    url: '/gallery/icons/gallery-view-list.png',
   }];
 
   constructor (props) {
@@ -98,6 +100,7 @@ class App extends React.Component {
   }
   
   get prefix() {
+    //return process.env.PUBLIC_URL;
     return '/gallery';
   }
 
@@ -136,7 +139,10 @@ class App extends React.Component {
   
   set path(spath) {
     console.log('Navigating to path: ' + spath);
-    fetch(this.prefix + '/api/list/' + spath)
+    const infix = '/api/list' + (spath.startsWith('/') ? '' : '/');
+    const fetch_url = this.prefix + infix + spath;
+    console.log('Fetching ' + fetch_url)
+    fetch(fetch_url)
       .then((r) => r.json())
       .then((node) => {
         console.log('Received node for new path:');
@@ -144,11 +150,11 @@ class App extends React.Component {
         this.node = node;
       });
   }
-
+  
   render() {
     if (! this.node ){ return ''; }
-    
     const node = this.node;
+    
     return (
       <div className="App">
         <div class='headerbar'>
@@ -168,8 +174,17 @@ class App extends React.Component {
           app={this} 
           node={node}
         />
- 
       </div>
+    );
+  }
+  
+}
+  
+class App extends React.Component {
+
+  render() {
+    return (
+      <Gallery />
     );
   }
 }

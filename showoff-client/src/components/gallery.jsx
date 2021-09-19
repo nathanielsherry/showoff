@@ -44,10 +44,10 @@ class GalleryNavButton extends NodeRenderer {
             background: #FFFBF340 !important;
           }
           .gallery-nav-button-left {
-            background: url(/icons/gallery-nav-left.png) center no-repeat, #FFFBF340;
+            background: url(/gallery/icons/gallery-nav-left.png) center no-repeat, #FFFBF340;
           }
           .gallery-nav-button-right {
-            background: url(/icons/gallery-nav-right.png) center no-repeat, #FFFBF340;
+            background: url(/gallery/icons/gallery-nav-right.png) center no-repeat, #FFFBF340;
           }
         `}
         </style>
