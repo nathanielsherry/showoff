@@ -19,5 +19,5 @@ RUN ln -s /opt/showoff/static /var/www/html
 # Run web server
 VOLUME /gallery
 EXPOSE 80
-CMD ['/usr/sbin/httpd', '-DFOREGROUND']
+CMD ["/usr/sbin/httpd", "-DFOREGROUND"]
 

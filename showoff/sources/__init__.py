@@ -1,9 +1,9 @@
-from showoff.sources.thumbnailer import Thumbnailer
+from showoff.sources.render import ImageRenderer
 import io, json
 
 class Source:
     def __init__(self):
-        self._thumbnailer = Thumbnailer(self)
+        self._renderer = ImageRenderer(self)
     
     #Returns a list of Documents
     def list_documents(self, path):
@@ -29,7 +29,7 @@ class Source:
         raise Exception('Unimplemented')
     
     @property
-    def thumbnailer(self): return self._thumbnailer
+    def renderer(self): return self._renderer
     
     @property
     def root(self): return self.make_link([])
@@ -160,7 +160,10 @@ class Document(Node):
     
     @property
     def thumb(self):
-        return self.source.thumbnailer.thumbnail(self)
+        return self.source.renderer.render(self, 128)
+    
+    def render(self, ideal_width, ideal_height):
+        return self.source.renderer.render(self, (ideal_width, ideal_height))
     
     @property
     def mimetype(self): return self.source.get_document_mimetype(self.path)
