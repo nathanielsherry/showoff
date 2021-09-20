@@ -1,3 +1,5 @@
+import ProgressiveImage from "react-progressive-image";
+
 import {NodeRenderer} from './base';
 import {Icon, ListIcon} from './icon';
 
@@ -100,6 +102,7 @@ class GalleryImage extends NodeRenderer {
 
   render() {
     const src = this.makepath('image');
+    const placeholder = this.makepath('placeholder');
     return (
       <div class='gallery-outer unselectable'>
         <style jsx>{`
@@ -143,7 +146,12 @@ class GalleryImage extends NodeRenderer {
           }
         `}</style>
         <div class='gallery'>
-          <img class='gallery-image' src={src} alt={this.title()}/>
+          <ProgressiveImage
+            placeholder={placeholder}
+            src={src}
+          >
+          {(src, loading, isVisible) => <img class='gallery-image' src={src} alt={this.title()}/>}
+          </ProgressiveImage>
         </div>
       </div>
     );
@@ -196,8 +204,8 @@ class GalleryIconGrid extends GalleryCollectionView {
             justify-content: space-evenly;
             margin: 20px;
             display: grid;
-            grid-template-columns: repeat(auto-fill, 200px);
-            grid-template-rows:    repeat(auto-fill, 200px);
+            grid-template-columns: repeat(auto-fill, 240px);
+            grid-template-rows:    repeat(auto-fill, 240px);
           }
         `}</style>
         <div class='gallery'>
