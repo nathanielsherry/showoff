@@ -5,7 +5,7 @@ class Icon extends NodeRenderer {
 
   render() {
     return (
-      <div class='icon'>
+      <div class='icon unselectable'>
         <style jsx>{`
           .icon {
             display: flex;
@@ -78,7 +78,7 @@ class ListIcon extends NodeRenderer {
     details = details.map((d) => this.renderDetail(d));
     
     return (
-      <div class='listicon'>
+      <div class='listicon unselectable'>
         <style jsx>{`
           .listicon {
             margin: 10px;
