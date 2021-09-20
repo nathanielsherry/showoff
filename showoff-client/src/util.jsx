@@ -112,4 +112,18 @@ function humanFileSize(bytes, si=true, dp=1) {
   return bytes.toFixed(dp) + ' ' + units[u];
 }
 
-export {humanFileSize}
+
+//thanks https://stackoverflow.com/questions/111529/how-to-create-query-parameters-in-javascript
+function encodeQueryData(data) {
+   const ret = [];
+   for (let d in data)
+     ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(data[d]));
+   return ret.join('&');
+}
+
+
+export {humanFileSize, encodeQueryData}
+
+
+
+
