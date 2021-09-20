@@ -4,9 +4,11 @@ import sys, json, io, traceback
 from flask import Flask, url_for, send_file, jsonify, redirect, request
 from showoff import log
 from showoff.sources.filesystem import FilesystemSource
+from showoff.render import ImageRenderer
 from showoff.sources import Collection, Document
 
 source = None
+renderer = None
 static = None
 
 def create_application():
@@ -40,13 +42,16 @@ def create_application():
 
     @app.route('/image/<path:path>')
     def image(path):
+        print('Image {}'.format(path))
         node = source.document_at(split_path(path))
         return send_file(
-            io.BytesIO(node.image),
+            io.BytesIO(renderer.fullimage(node)),
             mimetype=node.datatype)
+
 
     @app.route('/thumb/<path:path>')
     def thumb(path):
+        print('Thumb {}'.format(path))
         node = source.at(split_path(path))
         if node.datatype == 'collection':
             return send_file(
@@ -54,26 +59,28 @@ def create_application():
                 mimetype='image')
         else:
             return send_file(
-                io.BytesIO(node.thumb),
+                io.BytesIO(renderer.thumbnail(node)),
                 mimetype=node.datatype)
     
-    @app.route('/render/<path:path>')
-    def render(path):
+    @app.route('/placeholder/<path:path>')
+    def placeholder(path):
+        print('Placeholder {}'.format(path))
         node = source.at(split_path(path))
-        width = int(request.args.get('width'))
-        height = int(request.args.get('height'))
         if node.datatype == 'collection':
+            #TODO: should this be an error?
             return send_file(
                 static + 'folder.png',
                 mimetype='image')
         else:
             return send_file(
-                io.BytesIO(node.render(width, height)),
+                io.BytesIO(renderer.placeholder(node)),
                 mimetype=node.datatype)
+
 
     return app
 
 if __name__ == "__main__":
     source = FilesystemSource('../gallery')
     static = '/static'
+    renderer = ImageRenderer()
     create_application().run(debug=True, host='0.0.0.0', port=5000) 
