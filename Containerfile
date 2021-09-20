@@ -1,7 +1,7 @@
 FROM docker.io/rockylinux/rockylinux:latest
 
 # Install reqs
-RUN dnf -y install httpd python3-pillow python3-flask python3-mod_wsgi python3-pip
+RUN dnf -y install httpd python3-pillow python3-flask python3-mod_wsgi python3-pip tree
 RUN pip3 install python-magic
 
 # Install ShowOff package 
