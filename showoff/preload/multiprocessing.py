@@ -29,6 +29,7 @@ class MultiprocessingPreloader(Thread, Preloader):
 
 def process(preloader):
     try:
+        os.nice(19)
         while True:
             #Don't be a *total* jerk about it
             time.sleep(1)

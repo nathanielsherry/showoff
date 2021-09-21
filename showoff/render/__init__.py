@@ -95,11 +95,15 @@ class AbstractRenderer(Renderer):
             from PIL import Image
             with io.BytesIO(inbytes) as inbuf, io.BytesIO() as outbuf:
                 with Image.open(inbuf) as img:
+                    
+                    #Target image quality: 1-100
                     quality = 90
-                    method = 2 #TODO: change this if/when eager generation is in place
+                    
+                    #How much of a fuss to make about file size: 1-6
+                    method = 6
                     
                     if kind == KIND_THUMBNAIL:
-                        quality=50
+                        quality=0
                         img.thumbnail((192, 192), Image.ANTIALIAS)
                         
                     if kind == KIND_PLACEHOLDER:
