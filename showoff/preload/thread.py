@@ -2,13 +2,12 @@ from showoff.preload import Preloader
 
 from queue import Queue
 from threading import Thread
-import os
+
 class DaemonThreadPreloader(Thread, Preloader):
     def __init__(self, renderer):
         super().__init__(daemon=True)
         self._renderer = renderer
         self._queue = Queue()
-        self._workers = []
     
     @property
     def renderer(self): return self._renderer

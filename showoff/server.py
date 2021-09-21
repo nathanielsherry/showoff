@@ -92,6 +92,8 @@ if __name__ == "__main__":
     source = FilesystemSource('../gallery')
     static = '/static'
     renderer = ImageRenderer()
-    from showoff.preload.thread import DaemonThreadPreloader
-    preloader = DaemonThreadPreloader(renderer)
+    #from showoff.preload.thread import DaemonThreadPreloader
+    #preloader = DaemonThreadPreloader(renderer)
+    from showoff.preload.multiprocessing import MultiprocessingPreloader
+    preloader = MultiprocessingPreloader(renderer)
     create_application().run(debug=True, host='0.0.0.0', port=5000)
