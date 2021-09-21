@@ -10,8 +10,14 @@ from showoff.sources import Collection, Document
 source = None
 renderer = None
 static = None
+preloader = None
 
 def create_application():
+    global source
+    global renderer
+    global static
+    global preloader
+    
     app = Flask("ShowOff", static_url_path=static)
     app.url_map.strict_slashes = False
 
@@ -76,6 +82,9 @@ def create_application():
                 io.BytesIO(renderer.placeholder(node)),
                 mimetype=node.datatype)
 
+    if preloader:
+        preloader.start()
+        preloader.load_subtree(source.root)
 
     return app
 
@@ -83,4 +92,6 @@ if __name__ == "__main__":
     source = FilesystemSource('../gallery')
     static = '/static'
     renderer = ImageRenderer()
-    create_application().run(debug=True, host='0.0.0.0', port=5000) 
+    from showoff.preload.thread import DaemonThreadPreloader
+    preloader = DaemonThreadPreloader(renderer)
+    create_application().run(debug=True, host='0.0.0.0', port=5000)

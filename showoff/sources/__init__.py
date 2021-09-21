@@ -164,9 +164,14 @@ class Document(Node):
     def times(self): return self.source.get_document_times(self.path)
     
     @property
-    def cursor(self):
+    def siblings(self):
         parent = self.parent
-        siblings = parent.documents
+        if not parent: return []
+        return self.parent.documents
+    
+    @property
+    def cursor(self):
+        siblings = self.siblings
         size = len(siblings)
         index = None
         for i in range(0, size):
@@ -229,6 +234,12 @@ class Collection(Node):
         
     @property
     def datatype(self): return 'collection';
+       
+    def visit_subtree_leaves(self, visitor):
+        for document in self.documents:
+            visitor(document)
+        for link in self.links:
+            link.visit_subtree_leaves(visitor)
     
     def dump(self, deep=True):
         value = super().dump(deep=deep)
