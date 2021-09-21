@@ -97,13 +97,13 @@ class AbstractRenderer(Renderer):
                 with Image.open(inbuf) as img:
                     
                     #Target image quality: 1-100
-                    quality = 90
+                    quality = 85
                     
                     #How much of a fuss to make about file size: 1-6
                     method = 6
                     
                     if kind == KIND_THUMBNAIL:
-                        quality=0
+                        quality=50
                         img.thumbnail((192, 192), Image.ANTIALIAS)
                         
                     if kind == KIND_PLACEHOLDER:
