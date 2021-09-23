@@ -35,19 +35,29 @@ class Renderer:
     def has(self, node, kind): raise Exception('Unimplemented')
 
 
-
-
-#Most of the machinery can be implemented once here. Generates thumbnails and 
-#placeholders with Pillow and caches the results in a temp dir
-class AbstractRenderer(Renderer):
-    def __init__(self):
+#Most of the machinery can be implemented once here. Generates images, 
+#thumbnails and placeholders with the decoder/encoder and caches the 
+#results in a temp dir
+class BasicRenderer(Renderer):
+    
+    def __init__(self, decoder=None, encoder=None):
         self._tmpdir = tempfile.TemporaryDirectory('-renderer', 'showoff-')
-
+        
+        from showoff.render.encoder import WebPEncoder
+        from showoff.render.decoder import ImageDecoder
+        self._decoder = decoder or ImageDecoder()
+        self._encoder = encoder or WebPEncoder()
     
     @property
     def workpath(self): return self._tmpdir.name
     
+    @property
+    def decoder(self): return self._decoder
     
+    @property
+    def encoder(self): return self._encoder
+    
+    def can_render(self, node): return self.decoder.can_decode(node)
     
     def path_for(self, node, kind=None):
         #No kind means return the directory name for this file's various
@@ -87,35 +97,11 @@ class AbstractRenderer(Renderer):
         #start with the full image
         inbytes = None
         if kind == KIND_FULLIMAGE:
-            inbytes = self.render(node)
+            inbytes = self.decoder.decode(node)
         else:
             inbytes = self.fullimage(node)
         
-        try:
-            from PIL import Image
-            with io.BytesIO(inbytes) as inbuf, io.BytesIO() as outbuf:
-                with Image.open(inbuf) as img:
-                    
-                    #Target image quality: 1-100
-                    quality = 85
-                    
-                    #How much of a fuss to make about file size: 1-6
-                    method = 6
-                    
-                    if kind == KIND_THUMBNAIL:
-                        quality=50
-                        img.thumbnail((192, 192), Image.ANTIALIAS)
-                        
-                    if kind == KIND_PLACEHOLDER:
-                        quality=10
-                        
-                    img = img.convert('RGB')
-                    img.save(outbuf, format='webp', quality=quality, method=method)
-                    bytes = outbuf.getvalue()
-            return bytes
-        except:
-            log.error(traceback.format_exc())
-            return None
+        return self.encoder.encode(inbytes, kind)
           
     
     #TODO: remove this?
@@ -132,9 +118,4 @@ class AbstractRenderer(Renderer):
     
 
         
-class ImageRenderer(AbstractRenderer):
-    def render(self, node):
-        return node.bytes
 
-    def can_render(self, mime):
-        raise Exception('Unimplemented')

@@ -3,8 +3,6 @@
 import sys, json, io, traceback
 from flask import Flask, url_for, send_file, jsonify, redirect, request
 from showoff import log
-from showoff.sources.filesystem import FilesystemSource
-from showoff.render import ImageRenderer
 from showoff.sources import Collection, Document
 
 source = None
@@ -89,9 +87,12 @@ def create_application():
     return app
 
 if __name__ == "__main__":
+    from showoff.sources.filesystem import FilesystemSource
+    from showoff.render import BasicRenderer
+    
     source = FilesystemSource('../gallery')
     static = '/static'
-    renderer = ImageRenderer()
+    renderer = BasicRenderer()
     #from showoff.preload.thread import DaemonThreadPreloader
     #preloader = DaemonThreadPreloader(renderer)
     from showoff.preload.multiprocessing import MultiprocessingPreloader

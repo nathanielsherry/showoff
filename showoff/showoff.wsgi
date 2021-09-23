@@ -1,6 +1,6 @@
 from showoff import server
 from showoff.sources.filesystem import FilesystemSource
-from showoff.render import ImageRenderer
+from showoff.render import BasicRenderer
 from showoff.server import create_application
 from showoff.preload.thread import DaemonThreadPreloader
 from showoff.preload.multiprocessing import MultiprocessingPreloader
@@ -8,8 +8,7 @@ from showoff.preload.multiprocessing import MultiprocessingPreloader
 
 server.source = FilesystemSource('/gallery')
 server.static = '/var/www/html/'
-server.renderer = ImageRenderer()
-#server.preloader = DaemonThreadPreloader(server.renderer)
+server.renderer = BasicRenderer()
 server.preloader = MultiprocessingPreloader(server.renderer)
 
 

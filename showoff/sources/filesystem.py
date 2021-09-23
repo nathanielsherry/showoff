@@ -35,7 +35,7 @@ class FilesystemSource(Source):
     
     def get_document_bytes(self, path):
         try:
-            print('getbytes for ' + self._dir(path))
+            log.debug('getbytes for ' + self._dir(path))
             with open(self._dir(path), 'rb') as fh:
                 return fh.read()
         except:
