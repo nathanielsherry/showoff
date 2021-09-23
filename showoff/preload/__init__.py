@@ -1,4 +1,7 @@
+import traceback
+
 from showoff.sources import Collection
+from showoff import log
 
 class Preloader():
    
@@ -28,8 +31,10 @@ class Preloader():
             r.fullimage(node)
             r.thumbnail(node)
             r.placeholder(node)
+        except KeyboardInterrupt:
+            raise
         except:
             #TODO: leave some kind of marker so that we don't constantly re-preload
             #the same failing document?
-            pass
+            log.warn(traceback.format_exc())
     
